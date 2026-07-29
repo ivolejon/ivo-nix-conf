@@ -35,16 +35,17 @@
     onActivation.cleanup = "zap";  # remove anything not listed here
     onActivation.autoUpdate = true;
     onActivation.extraFlags = [ "--force" ];
+    taps = [
+      "derailed/k9s"
+      "hashicorp/tap"
+      "modem-dev/tap"
+    ];
     brews = [
-      "act"
-      "automake"
       "awscli"
       "bat"
-      "dbmate"
       "difftastic"
       "fd"
       "gh"
-      "ghidra"
       "git-filter-repo"
       "git-lfs"
       "git-standup"
@@ -52,6 +53,7 @@
       "herdr"
       "jq"
       "just"
+      "k9s"
       "kubecolor"
       "kubectx"
       "lazygit"
@@ -59,10 +61,6 @@
       "libpq"
       "libtool"
       "meson"
-      "micro"
-      "mob"
-      "modem-dev/tap/hunk"
-      "navi"
       "neovim"
       "opencode"
       "ossp-uuid"
@@ -70,12 +68,8 @@
       "powershell"
       "python-setuptools"
       "rtk"
-      "sem-cli"
-      "sox"
-      "sqlc"
-      "stow"
-      "svtplay-dl"
       "uv"
+      "vault"
       "zls"
     ];
     casks = [

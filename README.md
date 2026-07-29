@@ -16,7 +16,7 @@ Running the switch builds:
 - System settings (dark mode, key repeat, dock, Finder, trackpad)
 - Homebrew apps: Ghostty terminal, herdr CLI tool
 - Nix user packages: ripgrep, fd, fzf, jq, lazygit, Neovim, Helix, Hack Nerd Font
-- Shell (zsh with custom .zshrc, Starship prompt)
+- Shell (zsh with custom .zshrc and prompt)
 - Editor configs (Neovim, Helix with tokyonight theme)
 - Terminal (Ghostty with tokyonight theme)
 - Agent configs (Codex and opencode share one AGENTS.md)
@@ -26,6 +26,8 @@ Running the switch builds:
 - Apple Silicon Mac, by default.
 - Intel Mac: change one line.
   In `configuration.nix`, set `nixpkgs.hostPlatform = "x86_64-darwin";` (the comment right there tells you the same thing).
+- **Nix** must be installed using [Determinate Nix](https://docs.determinate.systems/).
+  Do not use the official Nix installer, it will not work with this config.
 
 ## Fresh-machine setup
 
@@ -46,7 +48,8 @@ Change the host label or CPU architecture if needed, and read the Homebrew clean
 
 `bootstrap.sh` does four things, in order:
 
-1. Installs Determinate Nix, if it isn't already installed.
+1. **Installs [Determinate Nix](https://docs.determinate.systems/)**, if it isn't already installed.
+   This is the recommended Nix installer for macOS and is required for this config.
 2. Symlinks this repo to `~/.dotfiles`.
    This has to happen before the first build, because `home.nix` points at config files through `~/.dotfiles`.
 3. Checks the `user` configured in `flake.nix` against your actual macOS username, and offers to fix it for you if they differ.

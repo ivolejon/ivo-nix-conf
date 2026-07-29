@@ -10,8 +10,8 @@ unfocused-split-opacity = 0.9
 split-divider-color = Light Slate Gray
 
 # Window appearance
-background-opacity = 0.85
-background-blur = true
+#background-opacity = 0.85
+#background-blur = true
 
 #keybind = ctrl+s>c=new_tab
 #keybind = ctrl+s>x=close_surface
@@ -24,5 +24,5 @@ background-blur = true
 
 # Custom shader for animated background
 # Note: Ghostty requires an absolute path for custom shaders
-custom-shader = /Users/ivolej01/.dotfiles/home/.config/ghostty/shaders/starfield.glsl
+custom-shader = /Users/ivolej01/.dotfiles/home/.config/ghostty/shaders/warp.glsl
 custom-shader-animation = true

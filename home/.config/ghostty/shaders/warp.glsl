@@ -4,7 +4,7 @@
 // trails, streaks, or twinkling.
 
 const float TAU = 6.28318530718;
-const float WARP_SPEED = 0.060;
+const float WARP_SPEED = 0.020;
 const float SPAWN_RADIUS = 0.22;
 const float STAR_BRIGHTNESS = 1.38;
 const float BACKGROUND_LUMA_START = 0.11;

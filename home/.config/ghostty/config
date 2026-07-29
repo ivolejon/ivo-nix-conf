@@ -9,6 +9,10 @@ confirm-close-surface=false
 unfocused-split-opacity = 0.9
 split-divider-color = Light Slate Gray
 
+# Window appearance
+background-opacity = 0.85
+background-blur = true
+
 #keybind = ctrl+s>c=new_tab
 #keybind = ctrl+s>x=close_surface
 #keybind = ctrl+s>h=new_split:right

@@ -29,17 +29,22 @@ in
     autosuggestion.enable = false;
     syntaxHighlighting.enable = false;
     initContent = ''
-      # Define git_branch_name early so it's available for the prompt
-      function git_branch_name() {
-        local branch=$(git symbolic-ref HEAD 2> /dev/null | sed 's/refs\/heads\///')
-        if [[ -n "$branch" ]]; then
-          echo "- ($branch)"
-        fi
-      }
-
       source "${dotfiles}/home/.zshrc"
     '';
     shellAliases = {};
+  };
+
+  programs.starship = {
+    enable = true;
+    settings = {
+      add_newline = false;
+      format = "$directory$git_branch$git_status$cmd_duration$line_break$character";
+      character = {
+        success_symbol = "[❯](purple)";
+        error_symbol = "[❯](red)";
+      };
+      cmd_duration.format = "[$duration]($style) ";
+    };
   };
 
   # Edit-in-place: the real file stays in my repo, ~/.config just points at it.

@@ -120,13 +120,7 @@ bindkey '^[[B'  down-line-or-beginning-search  # Arrow down
 bindkey '^[OB'  down-line-or-beginning-search
 
 # ==============================================================================
-# 7. PROMPT
-# ==============================================================================
-setopt prompt_subst
-prompt='%F{green}%*%f %F{blue}%~%f %F{red}$(git_branch_name)%F{default}> '
-
-# ==============================================================================
-# 8. PLUGINS & TOOLS (Antigen, NVM, Bun, Kube)
+# 7. PLUGINS & TOOLS (Antigen, NVM, Bun, Kube)
 # ==============================================================================
 source ~/antigen.zsh
 antigen bundle "MichaelAquilina/zsh-autoswitch-virtualenv"

@@ -20,4 +20,4 @@ background-blur = true
 #keybind = global:ctrl+k=clear_screen
 #keybind = ctrl+s>z=toggle_split_zoom
 
-shell-integration = zsh
+# shell-integration = zsh

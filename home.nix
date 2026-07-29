@@ -50,13 +50,14 @@ in
   # Edit-in-place: the real file stays in my repo, ~/.config just points at it.
   home.file.".config/nvim".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
-  home.file.".config/ghostty".source =
+  # Ghostty on macOS checks ~/Library/Application Support/com.mitchellh.ghostty/
+  # before ~/.config/ghostty/, so we symlink there instead.
+  home.file."Library/Application Support/com.mitchellh.ghostty".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/ghostty";
   home.file.".config/helix".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/helix";
   home.file.".config/herdr".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/herdr";
-
   home.file.".codex/AGENTS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/AGENTS.md";
   home.file.".config/opencode/AGENTS.md".source =

@@ -137,8 +137,3 @@ The first time you launch `nvim`, it bootstraps [lazy.nvim](https://github.com/f
 That needs network access once; after that it's offline.
 Neovim uses the rose-pine moon theme.
 Ghostty uses the tokyonight theme.
-
-## License
-
-This repo is licensed under MIT No Attribution.
-See `LICENSE`.

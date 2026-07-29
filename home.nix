@@ -163,6 +163,9 @@ in
     };
   };
 
+  # Silence "Last login" message in new terminal tabs
+  home.file.".hushlogin".text = "";
+
   # Edit-in-place: the real file stays in my repo, ~/.config just points at it.
   home.file.".config/nvim".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";

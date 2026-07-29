@@ -84,7 +84,6 @@
       "gcloud-cli"
       "ghostty"
       "gstreamer-runtime"
-      "meld"
       "wine-stable"
     ];
   };

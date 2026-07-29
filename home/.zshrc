@@ -12,9 +12,9 @@
 # ==============================================================================
 # 2. ENVIRONMENT VARIABLES
 # ==============================================================================
-export VISUAL=nvim
-export EDITOR=nvim
-export KUBE_EDITOR=nvim
+export VISUAL=hx
+export EDITOR=hx
+export KUBE_EDITOR=hx
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export VAULT_ADDR="https://vault.tools.k8s.sr.se"
 export CLR_OPENSSL_VERSION_OVERRIDE=3

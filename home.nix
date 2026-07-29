@@ -21,6 +21,7 @@ in
     nerd-fonts.hack
   ];
   fonts.fontconfig.enable = true;
+  home.sessionVariables.EDITOR = "hx";
 
   programs.zsh = {
     enable = true;
@@ -106,7 +107,7 @@ in
       config = "zed ~/";
       t = "toggle-theme";
       z = "zed";
-      vim = "nvim";
+      vim = "hx";
       python = "python3";
       chown_to_me = "sudo chown -R $(whoami) .";
       lg = "lazygit";

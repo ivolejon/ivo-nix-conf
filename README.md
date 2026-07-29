@@ -1,6 +1,4 @@
-# dotfiles
-
-Watch the walkthrough: https://youtu.be/5N-okeDdIuI
+# ivo-nix-conf
 
 My personal Mac setup, managed with nix-darwin and home-manager.
 One repo, one command, and a fresh Mac ends up configured the same way every time.
@@ -16,12 +14,12 @@ If you find a bug, please open a GitHub Issue using the bug report template.
 Running the switch builds:
 
 - System settings (dark mode, key repeat, dock, Finder, trackpad)
-- Homebrew apps (casks and CLI tools)
-- Nix user packages (ripgrep, fd, fzf, jq, lazygit, Neovim, Hack Nerd Font)
-- Shell (zsh, aliases, starship prompt)
-- Editor (Neovim config with the rose-pine moon theme)
-- Terminal (WezTerm config with the rose-pine moon theme)
-- Agent configs (Claude, Codex, opencode all share one AGENTS.md)
+- Homebrew apps: Ghostty terminal, herdr CLI tool
+- Nix user packages: ripgrep, fd, fzf, jq, lazygit, Neovim, Helix, Hack Nerd Font
+- Shell (zsh with custom .zshrc, Starship prompt)
+- Editor configs (Neovim, Helix with tokyonight theme)
+- Terminal (Ghostty with tokyonight theme)
+- Agent configs (Codex and opencode share one AGENTS.md)
 
 ## Prerequisites
 
@@ -34,7 +32,8 @@ Running the switch builds:
 On a brand new Mac, from a bare clone of this repo:
 
 ```sh
-git clone ddd
+git clone https://github.com/ivolejon/ivo-nix-conf.git
+cd ivo-nix-conf
 ```
 
 Before you run it: review "Make it yours" below.
@@ -114,10 +113,10 @@ If you don't use it, just remove it from `brews` in your copy.
 
 **Heads-up:**
 
-- `home/AGENTS.md` is my personal agent policy, and `home.nix` installs it for Claude, Codex, and opencode.
+- `home/AGENTS.md` is my personal agent policy, and `home.nix` installs it for Codex and opencode.
   If you clone this repo, you'd silently inherit my agent instructions - edit or delete `home/AGENTS.md` if you don't want that.
-- The `cc` and `co` shell aliases in `home.nix` are high-agency shortcuts: `claude --dangerously-skip-permissions` and `codex --full-auto`.
-  They're convenient for me, but know what they do before you use them.
+- The `co` shell alias in `home.nix` is a high-agency shortcut: `codex --full-auto`.
+  It's convenient for me, but know what it does before you use it.
 
 ## Repo tour
 
@@ -127,7 +126,7 @@ If you don't use it, just remove it from `brews` in your copy.
 - `home.nix` - user-level config: shell, packages, prompt, and the symlinks described below.
 - `rebuild.sh` - re-applies the config after the first switch.
   Run this every time you make a change.
-- `home/` - the actual config files that get symlinked into place (Neovim, WezTerm, herdr, Claude settings, the shared `AGENTS.md`).
+- `home/` - the actual config files that get symlinked into place (Neovim, Ghostty, Helix, herdr, the shared `AGENTS.md`).
 
 ## How the symlinks work
 
@@ -139,8 +138,8 @@ You only run `./rebuild.sh` when you change something that isn't just a symlinke
 
 The first time you launch `nvim`, it bootstraps [lazy.nvim](https://github.com/folke/lazy.nvim) by cloning plugins from GitHub.
 That needs network access once; after that it's offline.
-Neovim and WezTerm both use the rose-pine moon theme.
-Neovim keeps italics off and uses a transparent background on macOS, Windows, and WSL so it matches the terminal setup.
+Neovim uses the rose-pine moon theme.
+Ghostty uses the tokyonight theme.
 
 ## License
 

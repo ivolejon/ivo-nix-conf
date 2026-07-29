@@ -1,0 +1,9 @@
+[language-server.csharp-ls]
+command = "csharp-ls"
+
+[[language]]
+name = "c-sharp"
+scope = "source.c_sharp"
+language-servers = ["csharp-ls"]
+formatter = { command = "dotnet", args = ["csharpier", "--write-stdout"] }
+auto-format = true

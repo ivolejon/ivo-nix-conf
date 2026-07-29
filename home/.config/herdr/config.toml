@@ -1,0 +1,18 @@
+[terminal]
+default_shell = "zsh"
+
+[theme]
+auto_switch = true
+
+[keys]
+prefix = "ctrl+s"
+split_horizontal = "prefix+v"
+split_vertical = "prefix+h"
+
+[[keys.command]]
+key = "prefix+l"
+type = "popup"
+command = "lazygit"
+description = "run lazygit"
+width = "80%"
+height = "80%"

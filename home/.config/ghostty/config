@@ -1,0 +1,19 @@
+font-size = 14
+font-family = "Iosevka Term"
+
+theme = dark:tokyonight,light:iTerm2 Light Background
+
+adjust-cell-height = 25%
+keybind=ctrl+shift+w=close_window
+confirm-close-surface=false
+unfocused-split-opacity = 0.9
+split-divider-color = Light Slate Gray
+
+#keybind = ctrl+s>c=new_tab
+#keybind = ctrl+s>x=close_surface
+#keybind = ctrl+s>h=new_split:right
+#keybind = ctrl+s>v=new_split:down
+#keybind = global:ctrl+k=clear_screen
+#keybind = ctrl+s>z=toggle_split_zoom
+
+shell-integration = zsh

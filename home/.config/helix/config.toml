@@ -1,0 +1,23 @@
+theme = "tokyonight"
+
+[editor]
+line-number = "relative"
+gutters = ["diagnostics", "spacer", "diff", "line-numbers", "spacer"]
+
+mouse = true
+
+auto-format = true
+
+auto-pairs = true
+
+[editor.lsp]
+display-messages = true
+
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+
+
+[editor.file-picker]
+hidden = false

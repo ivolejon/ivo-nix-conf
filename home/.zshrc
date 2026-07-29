@@ -1,7 +1,7 @@
 # ==============================================================================
 # 1. INITIALIZATION & SECRETS
 # ==============================================================================
-source ~/.zshenv
+source ~/.dotfiles/home/.zshenv
 [ -f ~/.secrets ] && source ~/.secrets
 [ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
 [ -f ~/.dotnet.ef.commands ] && source ~/.dotnet.ef.commands # Sveriges Radio

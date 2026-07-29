@@ -138,7 +138,7 @@ in
       gsp = "git stash pop";
       gsl = "git stash list --pretty=format:'%gd: %Cred%h%Creset %Cgreen[%ar]%Creset %s'";
       gdf = "diff-parent";
-      cb = "git rev-parse --abbrev-ref HEAD | pbcopy";
+      cb = ''branch=$(git rev-parse --abbrev-ref HEAD); echo "Copied $branch to clipboard"; echo "$branch" | pbcopy'';
       rr = "git_browse";
       reset = "git reset --hard";
       gb = "list-visited-branches";

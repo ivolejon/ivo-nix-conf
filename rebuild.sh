@@ -6,4 +6,5 @@ ln -sfn "$DIR" ~/.dotfiles
 # darwin-rebuild (which lives under /run/current-system/sw/bin/ or similar)
 # would not be found. Resolve the absolute path first and invoke that instead.
 DARWIN_REBUILD="$(command -v darwin-rebuild)"
-exec sudo "$DARWIN_REBUILD" switch --flake ~/.dotfiles#mac
+sudo "$DARWIN_REBUILD" switch --flake ~/.dotfiles#mac
+exec zsh

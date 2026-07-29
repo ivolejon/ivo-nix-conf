@@ -38,12 +38,17 @@ in
     enable = true;
     settings = {
       add_newline = false;
-      format = "$directory$git_branch$git_status$cmd_duration$line_break$character";
+      format = "$directory[ on ](white)$git_branch $character";
+      directory = {
+        truncate_to_repo = true;
+      };
+      git_branch = {
+        symbol = " ";
+      };
       character = {
         success_symbol = "[❯](purple)";
         error_symbol = "[❯](red)";
       };
-      cmd_duration.format = "[$duration]($style) ";
     };
   };
 

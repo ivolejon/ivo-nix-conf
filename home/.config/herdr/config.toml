@@ -8,6 +8,8 @@ auto_switch = true
 prefix = "ctrl+s"
 split_horizontal = "prefix+v"
 split_vertical = "prefix+h"
+new_tab = "prefix+t"
+new_workspace = "prefix+n"
 
 [[keys.command]]
 key = "prefix+l"

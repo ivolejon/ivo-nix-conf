@@ -28,7 +28,7 @@
   nix-homebrew = {
     enable = true;
     inherit user;
-    autoMigrate = true;
+    autoMigrate = false;
   };
   homebrew = {
     enable = true;
@@ -36,10 +36,56 @@
     onActivation.autoUpdate = true;
     onActivation.extraFlags = [ "--force" ];
     brews = [
+      "act"
+      "automake"
+      "awscli"
+      "bat"
+      "dbmate"
+      "difftastic"
+      "fd"
+      "gh"
+      "ghidra"
+      "git-filter-repo"
+      "git-lfs"
+      "git-standup"
+      "helix"
       "herdr"
+      "jq"
+      "just"
+      "kubecolor"
+      "kubectx"
+      "lazygit"
+      "libaacs"
+      "libpq"
+      "libtool"
+      "meson"
+      "micro"
+      "mob"
+      "modem-dev/tap/hunk"
+      "navi"
+      "neovim"
+      "opencode"
+      "ossp-uuid"
+      "postgresql@18"
+      "powershell"
+      "python-setuptools"
+      "rtk"
+      "sem-cli"
+      "sox"
+      "sqlc"
+      "stow"
+      "svtplay-dl"
+      "uv"
+      "zls"
     ];
     casks = [
+      "alt-tab"
+      "copilot-cli"
+      "gcloud-cli"
       "ghostty"
+      "gstreamer-runtime"
+      "meld"
+      "wine-stable"
     ];
   };
 }

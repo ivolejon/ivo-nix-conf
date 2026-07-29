@@ -12,6 +12,7 @@ split-divider-color = Light Slate Gray
 # Window appearance
 #background-opacity = 0.85
 #background-blur = true
+macos-titlebar-style = hidden
 
 #keybind = ctrl+s>c=new_tab
 #keybind = ctrl+s>x=close_surface

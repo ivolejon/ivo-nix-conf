@@ -74,6 +74,7 @@
       "gcloud-cli"
       "ghostty"
       "wine-stable"
+      "zed"
     ];
   };
 }

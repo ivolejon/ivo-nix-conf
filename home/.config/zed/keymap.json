@@ -1,0 +1,72 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-a": "editor::SelectLargerSyntaxNode"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-t": "editor::GoToDefinition"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-/": [
+        "editor::ToggleComments",
+        {
+          "advance_downwards": true
+        }
+      ]
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "ctrl-o": "pane::GoBack"
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "ctrl-i": "pane::GoForward"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-r": "editor::FindAllReferences"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-u": "editor::GoToImplementationSplit"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-z": "workspace::ToggleZoom"
+    }
+  }
+]

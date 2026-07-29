@@ -52,7 +52,6 @@
       "helix"
       "herdr"
       "jq"
-      "just"
       "k9s"
       "kubecolor"
       "kubectx"
@@ -60,24 +59,20 @@
       "libaacs"
       "libpq"
       "libtool"
-      "meson"
       "neovim"
       "opencode"
       "ossp-uuid"
       "postgresql@18"
       "powershell"
       "python-setuptools"
-      "rtk"
       "uv"
       "vault"
       "zls"
     ];
     casks = [
-      "alt-tab"
       "copilot-cli"
       "gcloud-cli"
       "ghostty"
-      "gstreamer-runtime"
       "wine-stable"
     ];
   };

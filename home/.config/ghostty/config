@@ -23,6 +23,5 @@ split-divider-color = Light Slate Gray
 # shell-integration = zsh
 
 # Custom shader for animated background
-# Note: Ghostty requires an absolute path for custom shaders
-custom-shader = /Users/ivolej01/.dotfiles/home/.config/ghostty/shaders/warp.glsl
-custom-shader-animation = true
+#custom-shader = /Users/ivolej01/.dotfiles/home/.config/ghostty/shaders/warp.glsl
+#custom-shader-animation = true

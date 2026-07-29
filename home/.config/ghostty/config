@@ -23,5 +23,6 @@ background-blur = true
 # shell-integration = zsh
 
 # Custom shader for animated background
-custom-shader = ~/.config/ghostty/shaders/starfield.glsl
+# Note: Ghostty requires an absolute path for custom shaders
+custom-shader = /Users/ivolej01/.dotfiles/home/.config/ghostty/shaders/starfield.glsl
 custom-shader-animation = true

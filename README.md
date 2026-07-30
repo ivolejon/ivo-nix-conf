@@ -9,9 +9,9 @@ Running the switch builds:
 
 - System settings (dark mode, key repeat, dock, Finder, trackpad)
 - Homebrew apps: Ghostty terminal, herdr CLI tool
-- Nix user packages: ripgrep, fd, fzf, jq, lazygit, Neovim, Helix, Hack Nerd Font
+- Nix user packages: ripgrep, fd, fzf, jq, lazygit, Helix (default editor), Zed, Node.js, Hack Nerd Font
 - Shell (zsh with custom .zshrc and prompt)
-- Editor configs (Neovim, Helix with tokyonight theme)
+- Editor configs (Helix with tokyonight theme, Zed)
 - Terminal (Ghostty with tokyonight theme)
 - Agent configs (Codex and opencode share one AGENTS.md)
 
@@ -123,7 +123,7 @@ If you don't use it, just remove it from `brews` in your copy.
 - `home.nix` - user-level config: shell, packages, prompt, and the symlinks described below.
 - `rebuild.sh` - re-applies the config after the first switch.
   Run this every time you make a change.
-- `home/` - the actual config files that get symlinked into place (Neovim, Ghostty, Helix, herdr, the shared `AGENTS.md`).
+- `home/` - the actual config files that get symlinked into place (Ghostty, Helix, Zed, herdr, the shared `AGENTS.md`).
 
 ## How the symlinks work
 

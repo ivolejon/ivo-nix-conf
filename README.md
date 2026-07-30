@@ -74,6 +74,47 @@ Edit the config files in place, then apply:
 That's it.
 No separate build-and-copy step.
 
+## Adding a Homebrew package
+
+Homebrew packages are declared in `configuration.nix`. To add a new package:
+
+1. **Find the package name**: Run `brew search <name>` to find the exact formula or cask name.
+2. **Add to the right list** in `configuration.nix`:
+   - CLI tools go in `homebrew.brews`
+   - GUI apps go in `homebrew.casks`
+3. **Run `./rebuild.sh`** to apply.
+
+**Example** - adding `bat` (a CLI tool) and `zed` (an editor app):
+
+```nix
+homebrew = {
+  # ... existing config ...
+  brews = [
+    # ... existing brews ...
+    "bat"  # <-- added here
+  ];
+  casks = [
+    # ... existing casks ...
+    "zed"  # <-- added here
+  ];
+};
+```
+
+**If it's from a custom tap**, add the tap first in `homebrew.taps`:
+
+```nix
+homebrew = {
+  taps = [
+    "hashicorp/tap"  # example tap
+  ];
+  brews = [
+    "vault"  # from hashicorp/tap
+  ];
+};
+```
+
+**Important**: `cleanup = "zap"` is enabled, so anything not in these lists gets uninstalled on rebuild.
+
 ## Make it yours
 
 This repo is mine.

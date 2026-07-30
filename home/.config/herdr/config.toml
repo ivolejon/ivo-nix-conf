@@ -16,7 +16,7 @@ previous_workspace = "prefix+up"
 next_workspace = "prefix+down"
 
 [[keys.command]]
-key = "prefix+l"
+key = "prefix+g"
 type = "popup"
 command = "lazygit"
 description = "run lazygit"

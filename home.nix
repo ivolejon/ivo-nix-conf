@@ -17,6 +17,8 @@ in
     lazygit
     neovim
     helix
+    # nodejs and npm
+    nodejs
     # the font everything renders in
     nerd-fonts.hack
   ];

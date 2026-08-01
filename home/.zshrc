@@ -4,9 +4,12 @@
 # NOTE: Functions and aliases are defined in home.nix initContent and shellAliases
 # so they are always available. Only environment variables and sourcing stay here.
 
-[ -f ~/.secrets ] && source ~/.secrets
+# Source all .sh files from ~/.config/__misc
+for misc_sh in ~/.config/__misc/*.sh(N); do
+  source "$misc_sh"
+done
+
 [ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
-[ -f ~/.dotnet.ef.commands ] && source ~/.dotnet.ef.commands # Sveriges Radio
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"       # Rust & Cargo
 
 # ==============================================================================
@@ -19,7 +22,6 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export VAULT_ADDR="https://vault.tools.k8s.sr.se"
 export CLR_OPENSSL_VERSION_OVERRIDE=3
 export DOTNET_ROOT="/usr/local/share/dotnet"
-export KUBECONFIG="$HOME/.kube/stodev03-ext.yaml:$HOME/.kube/stoprod03-ext.yaml"
 export BUN_INSTALL="$HOME/.bun"
 export PNPM_HOME="/Users/ivo/Library/pnpm"
 
@@ -29,7 +31,6 @@ export PNPM_HOME="/Users/ivo/Library/pnpm"
 # Lägger till alla sökvägar systematiskt för att undvika rörig kod
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
-export PATH="$HOME/.moon/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="/Users/ivolej01/.docker/bin:$PATH"
 export PATH="$PATH:/Users/ivolej01/.dotnet/tools"

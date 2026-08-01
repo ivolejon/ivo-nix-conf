@@ -4,6 +4,7 @@ home/.config/herdr/session.json
 home/.config/herdr/*.sock
 
 # macOS + nix build noise
+home/.config/zed/prompts/**
 .DS_Store
 result
 result-*

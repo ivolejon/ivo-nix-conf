@@ -21,12 +21,8 @@
     bat = "bat --style=plain";
     fzf = "fzf --preview 'bat --style=numbers --color=always --line-range=:500 {}'";
     rg = "rg --no-ignore --hidden --colors 'match:fg:yellow' --colors 'path:fg:green'";
-    dozzle = "docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 8090:8080 amir20/dozzle:latest";
     oc = "opencode";
-    k = "kubecolor";
     p = "pnpm";
-    pphost = "pnpm -F host dev";
-    ppremote = "pnpm -F nyheter remote";
     gi = "git init";
     gs = "git status";
     status = "git status -sbu";

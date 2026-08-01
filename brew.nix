@@ -15,6 +15,7 @@
     taps = [
       "derailed/k9s"
       "hashicorp/tap"
+      "human37/open-wispr"
       "modem-dev/tap"
     ];
     brews = [
@@ -43,6 +44,7 @@
       "vault"
       "zls"
       "hunk"
+      "open-wispr"
     ];
     casks = [
       "copilot-cli"

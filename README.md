@@ -8,11 +8,11 @@ One repo, one command, and a fresh Mac ends up configured the same way every tim
 Running the switch builds:
 
 - System settings (dark mode, key repeat, dock, Finder, trackpad)
-- Homebrew apps: Ghostty terminal, herdr CLI tool
-- Nix user packages: ripgrep, fd, fzf, jq, lazygit, Helix (default editor), Zed, Node.js, Hack Nerd Font
+- Homebrew apps: Ghostty terminal, herdr CLI tool, OpenWispr, and more
+- Nix user packages: ripgrep, fd, fzf, jq, lazygit, Helix (default editor), Node.js, Hack Nerd Font
 - Shell (zsh with custom .zshrc and prompt)
-- Editor configs (Helix with tokyonight theme, Zed)
-- Terminal (Ghostty with tokyonight theme)
+- Editor configs (Helix, Zed, Neovim)
+- Terminal (Ghostty tied to a theme)
 - Agent configs (Codex and opencode share one AGENTS.md)
 
 ## Prerequisites
@@ -76,10 +76,10 @@ No separate build-and-copy step.
 
 ## Adding a Homebrew package
 
-Homebrew packages are declared in `configuration.nix`. To add a new package:
+Homebrew packages are declared in `brew.nix`. To add a new package:
 
 1. **Find the package name**: Run `brew search <name>` to find the exact formula or cask name.
-2. **Add to the right list** in `configuration.nix`:
+2. **Add to the right list** in `brew.nix`:
    - CLI tools go in `homebrew.brews`
    - GUI apps go in `homebrew.casks`
 3. **Run `./rebuild.sh`** to apply.
@@ -140,8 +140,8 @@ programs.git = {
 };
 ```
 
-**Homebrew cleanup warning:** `configuration.nix` sets `homebrew.onActivation.cleanup = "zap"`.
-That means every time you switch, Homebrew removes any package or cask on your machine that isn't listed in the `brews` and `casks` arrays in `configuration.nix`.
+**Homebrew cleanup warning:** `brew.nix` sets `homebrew.onActivation.cleanup = "zap"`.
+That means every time you switch, Homebrew removes any package or cask on your machine that isn't listed in the `brews` and `casks` arrays in `brew.nix`.
 If you already have Homebrew stuff installed that isn't in that list, the first switch will uninstall it.
 Read through `brews` and `casks` before you run `bootstrap.sh` or `rebuild.sh` for the first time, and add anything you want to keep.
 
@@ -153,18 +153,21 @@ If you don't use it, just remove it from `brews` in your copy.
 
 - `home/AGENTS.md` is my personal agent policy, and `home.nix` installs it for Codex and opencode.
   If you clone this repo, you'd silently inherit my agent instructions - edit or delete `home/AGENTS.md` if you don't want that.
-- The `co` shell alias in `home.nix` is a high-agency shortcut: `codex --full-auto`.
+- The `co` shell alias in `alias.nix` is a high-agency shortcut: `codex --full-auto`.
   It's convenient for me, but know what it does before you use it.
 
 ## Repo tour
 
 - `flake.nix` - the entry point.
   Wires up nixpkgs, nix-darwin, home-manager, and nix-homebrew, and declares the `mac` machine.
-- `configuration.nix` - system-level config: macOS defaults, Homebrew.
-- `home.nix` - user-level config: shell, packages, prompt, and the symlinks described below.
+- `configuration.nix` - system-level config: macOS defaults, Nix settings.
+- `brew.nix` - Homebrew config: taps, brews, casks, cleanup policy.
+- `home.nix` - user-level config: packages, fonts, and symlinks for editor/terminal configs.
+- `shell.nix` - zsh, Starship prompt, editor env var, shell functions (imports `alias.nix`).
+- `alias.nix` - all shell aliases, kept separate for readability.
 - `rebuild.sh` - re-applies the config after the first switch.
   Run this every time you make a change.
-- `home/` - the actual config files that get symlinked into place (Ghostty, Helix, Zed, herdr, the shared `AGENTS.md`).
+- `home/` - the actual config files that get symlinked into place (Ghostty, Helix, Zed, Neovim, herdr, the shared `AGENTS.md`).
 
 ## How the symlinks work
 

@@ -21,6 +21,13 @@ in
     helix
     # nodejs and npm
     nodejs
+    # dotnet (both SDKs combined into one package)
+    (dotnetCorePackages.combinePackages [
+      dotnetCorePackages.sdk_9_0
+      dotnetCorePackages.sdk_10_0
+    ])
+    # screenshot tool
+    flameshot
     # the font everything renders in
     nerd-fonts.hack
   ];

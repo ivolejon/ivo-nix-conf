@@ -23,7 +23,6 @@ export VAULT_ADDR="https://vault.tools.k8s.sr.se"
 export CLR_OPENSSL_VERSION_OVERRIDE=3
 export DOTNET_ROOT="/usr/local/share/dotnet"
 export BUN_INSTALL="$HOME/.bun"
-export PNPM_HOME="/Users/ivo/Library/pnpm"
 
 # ==============================================================================
 # 3. PATH CONSTRUCTION
@@ -41,11 +40,6 @@ export PATH="$HOME/.aspire/bin:$PATH"
 export PATH="$HOME/.dotnet/tools:$PATH"
 export PATH="$PATH:$HOME/.rvm/bin" # RVM rekommenderar att ligga sist i PATH
 
-# PNPM
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
 
 # ==============================================================================
 # 4. HISTORY SETTINGS

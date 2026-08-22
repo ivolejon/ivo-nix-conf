@@ -47,15 +47,11 @@ in
       function git_browse() {
         local gbrowsevar=$(git config --get remote.origin.url)
         printf "%s" "$gbrowsevar"
-        open "$gbrowsevar"
+        xdg-open "$gbrowsevar"
       }
 
       function killport() {
         lsof -i tcp:$1 | awk 'NR>1 {print $2}' | xargs kill -9
-      }
-
-      function toggle-theme() {
-        osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
       }
 
       function reload-zsh-config() {
@@ -65,7 +61,7 @@ in
       }
 
       function list-visited-branches() {
-        git --no-pager reflog | grep "checkout: moving from" | awk '{print $NF}' | awk '!x[$0]++' | head -n 20 | tail -r
+        git --no-pager reflog | grep "checkout: moving from" | awk '{print $NF}' | awk '!x[$0]++' | head -n 20 | tac
       }
 
       function diff-parent() {

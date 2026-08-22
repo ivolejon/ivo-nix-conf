@@ -8,7 +8,7 @@ in
   imports = [ ./shell.nix ];
 
   home.username = user;
-  home.homeDirectory = "/Users/${user}";
+  home.homeDirectory = "/home/${user}";
   home.stateVersion = "24.11";
   home.packages = with pkgs; [
     # cli i use constantly
@@ -28,6 +28,8 @@ in
     ])
     # screenshot tool
     flameshot
+    # wayland clipboard (used by the cb alias)
+    wl-clipboard
     # the font everything renders in
     nerd-fonts.hack
   ];
@@ -37,9 +39,7 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/zed";
   home.file.".config/nvim".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
-  # Ghostty on macOS checks ~/Library/Application Support/com.mitchellh.ghostty/
-  # before ~/.config/ghostty/, so we symlink there instead.
-  home.file."Library/Application Support/com.mitchellh.ghostty".source =
+  home.file.".config/ghostty".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/ghostty";
   home.file.".config/helix".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/helix";

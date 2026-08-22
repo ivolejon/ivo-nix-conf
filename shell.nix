@@ -77,6 +77,11 @@ in
         git diff "$target"... --name-only
       }
 
+      # Make brew available in this shell
+      if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+      fi
+
       source "${dotfiles}/home/.zshrc"
     '';
   };

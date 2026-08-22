@@ -10,6 +10,22 @@ in
   home.username = user;
   home.homeDirectory = "/home/${user}";
   home.stateVersion = "24.11";
+
+  # Install Homebrew on Linux if missing, and keep brew packages in sync.
+  home.activation = {
+    install-homebrew = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+        $DRY_RUN_CMD echo "Installing Homebrew for Linux..."
+        $DRY_RUN_CMD NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      fi
+    '';
+    brew-bundle = config.lib.dag.entryAfter [ "install-homebrew" ] ''
+      if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && [ -f ${dotfiles}/Brewfile ]; then
+        $DRY_RUN_CMD /home/linuxbrew/.linuxbrew/bin/brew bundle --file=${dotfiles}/Brewfile --no-lock
+      fi
+    '';
+  };
+
   home.packages = with pkgs; [
     # cli i use constantly
     ripgrep   # fast search

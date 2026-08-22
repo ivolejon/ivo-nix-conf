@@ -2,5 +2,5 @@
 set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 ln -sfn "$DIR" ~/.dotfiles
-home-manager switch --flake ~/.dotfiles#linux
+home-manager switch -b backup --flake ~/.dotfiles#linux
 exec zsh

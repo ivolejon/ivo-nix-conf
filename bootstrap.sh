@@ -50,7 +50,7 @@ echo "==> Step 4: first home-manager switch (pinned to release-26.05)"
 NIX_BIN="$(command -v nix)"
 # "linux" is the flake host label - if you renamed it, change it in flake.nix
 # and rebuild.sh too.
-"$NIX_BIN" run home-manager/release-26.05 -- switch --flake ~/.dotfiles#linux
+"$NIX_BIN" run home-manager/release-26.05 -- switch -b backup --flake ~/.dotfiles#linux
 # If this still fails with "nix: command not found", open a new terminal
 # (Determinate adds nix to new shells' PATH) and re-run ./bootstrap.sh.
 

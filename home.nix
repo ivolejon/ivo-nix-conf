@@ -16,12 +16,14 @@ in
     install-homebrew = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       if [ ! -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
         $DRY_RUN_CMD echo "Installing Homebrew for Linux..."
-        $DRY_RUN_CMD NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        # HM activation runs with a PATH of only nix store bins, so the
+        # installer can't find system tools like ldd. Prepend /usr/bin:/bin.
+        $DRY_RUN_CMD env NONINTERACTIVE=1 PATH=/usr/bin:/bin:"$PATH" ${pkgs.bash}/bin/bash -c "$(${pkgs.curl}/bin/curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       fi
     '';
     brew-bundle = config.lib.dag.entryAfter [ "install-homebrew" ] ''
       if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && [ -f ${dotfiles}/Brewfile ]; then
-        $DRY_RUN_CMD /home/linuxbrew/.linuxbrew/bin/brew bundle --file=${dotfiles}/Brewfile --no-lock
+        $DRY_RUN_CMD /home/linuxbrew/.linuxbrew/bin/brew bundle --file=${dotfiles}/Brewfile
       fi
     '';
   };

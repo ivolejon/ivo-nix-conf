@@ -81,13 +81,16 @@ bindkey '^[OB'  down-line-or-beginning-search
 # ==============================================================================
 # 7. PLUGINS & TOOLS (Antigen, NVM, Bun, Kube)
 # ==============================================================================
-source ~/antigen.zsh
-antigen bundle "MichaelAquilina/zsh-autoswitch-virtualenv"
-antigen bundle djui/alias-tips
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zpm-zsh/autoenv
-antigen bundle joshskidmore/zsh-fzf-history-search
-antigen apply
+# Only load antigen when it's installed (see https://antigen.sh)
+if [ -f "$HOME/antigen.zsh" ]; then
+  source "$HOME/antigen.zsh"
+  antigen bundle "MichaelAquilina/zsh-autoswitch-virtualenv"
+  antigen bundle djui/alias-tips
+  antigen bundle zsh-users/zsh-syntax-highlighting
+  antigen bundle zpm-zsh/autoenv
+  antigen bundle joshskidmore/zsh-fzf-history-search
+  antigen apply
+fi
 
 # Manuella Plugins
 [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh

@@ -12,12 +12,6 @@
     onActivation.cleanup = "zap";  # remove anything not listed here
     onActivation.autoUpdate = true;
     onActivation.extraFlags = [ "--force" ];
-    taps = [
-      "derailed/k9s"
-      "hashicorp/tap"
-      "human37/open-wispr"
-      "modem-dev/tap"
-    ];
     brews = [
       "awscli"
       "bat"
@@ -29,7 +23,6 @@
       "helix"
       "herdr"
       "jq"
-      "k9s"
       "kubecolor"
       "kubectx"
       "lazygit"
@@ -38,13 +31,9 @@
       "libtool"
       "neovim"
       "opencode"
-      "ossp-uuid"
       "python-setuptools"
       "uv"
-      "vault"
       "zls"
-      "hunk"
-      "open-wispr"
     ];
     casks = [
       "copilot-cli"

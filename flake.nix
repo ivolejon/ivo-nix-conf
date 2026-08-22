@@ -11,7 +11,7 @@
   outputs = { self, home-manager, nixpkgs }:
     let
       # The one username line to change if this isn't your machine.
-      user = "ivolej01";
+      user = "ivolejon";
       # Change to "aarch64-linux" if you are on ARM (e.g. Raspberry Pi, Asahi).
       system = "x86_64-linux";
     in

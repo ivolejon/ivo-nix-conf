@@ -9,7 +9,8 @@ echo "==> Step 1: Determinate Nix"
 if command -v nix >/dev/null 2>&1; then
   echo "    nix already installed, skipping"
 else
-  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix \
+  curl --proto '=https' --tlsv1.2 -fsSL --cacert /etc/ssl/certs/ca-certificates.crt \
+    -L https://install.determinate.systems/nix \
     | sh -s -- install --no-confirm
   # shellcheck disable=SC1091
   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
@@ -43,7 +44,20 @@ else
   echo "    flake.nix already matches \"$REAL_USER\", nothing to do."
 fi
 
-echo "==> Step 4: first home-manager switch (pinned to release-26.05)"
+echo "==> Step 4: antigen (zsh plugin manager, sourced by .zshrc)"
+# Idempotent: skip if already present so re-runs don't clobber it.
+if [ -f "$HOME/antigen.zsh" ]; then
+  echo "    ~/antigen.zsh already exists, skipping"
+else
+  # Explicit CA bundle so stray SSL_CERT_FILE/NIX_SSL_CERT_FILE values can't
+  # break verification ("unable to get local issuer certificate").
+  curl --proto '=https' --tlsv1.2 -fsSL \
+    --cacert /etc/ssl/certs/ca-certificates.crt \
+    https://raw.githubusercontent.com/zsh-users/antigen/master/bin/antigen.zsh \
+    -o "$HOME/antigen.zsh"
+fi
+
+echo "==> Step 5: first home-manager switch (pinned to release-26.05)"
 # home-manager doesn't exist yet on a fresh machine, so run it straight
 # from the flake this once. After this, rebuild.sh works normally.
 # This fetches the home-manager tool from the release-26.05 branch.

@@ -49,4 +49,20 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/AGENTS.md";
   home.file.".config/opencode/AGENTS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/AGENTS.md";
+
+  # Git diff/pager setup, kept out of ~/.gitconfig so it is reproducible.
+  # Git reads this file too; ~/.gitconfig still wins for anything it sets,
+  # which is where the git identity deliberately stays (see README).
+  # Written as a plain file rather than programs.git on purpose: enabling that
+  # module would also install nixpkgs git and shadow the system/brew one.
+  home.file.".config/git/config".text = ''
+    [core]
+    	pager = hunk pager
+    [diff]
+    	tool = hunk
+    [difftool]
+    	prompt = false
+    [difftool "hunk"]
+    	cmd = hunk difftool \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+  '';
 }

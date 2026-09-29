@@ -118,7 +118,7 @@ homebrew = {
 
 ## Node, npm and npm packages (deliberately not in Nix)
 
-Node.js is **not** in `home.packages` here. It comes from nvm, installed per machine, and loaded in `home/.zshenv`:
+Node.js is **not** in `home.packages` here. It comes from nvm, installed per machine, and loaded in `home/.zprofile`:
 
 ```sh
 # once, on a new machine
@@ -133,7 +133,9 @@ npm install -g @jmfederico/pi-web --allow-scripts=node-pty
 pi-web install
 ```
 
-`~/.zshenv` (not `~/.zshrc`) is where nvm is loaded, because PI WEB's LaunchAgents run through a non-interactive login shell - `zsh -lc` - and would otherwise get a different `node` than your terminal. It is symlinked from `home/.zshenv` by `home.nix`.
+`~/.zprofile` (not `~/.zshrc`) is where nvm is loaded, because PI WEB's LaunchAgents run through a non-interactive login shell - `zsh -lc` - and would otherwise get a different `node` than your terminal. `~/.zprofile` is symlinked from `home/.zprofile` by `home.nix`.
+
+Do not move that into `~/.zshenv`: nix-darwin writes `~/.zshenv` itself (it sources the Home Manager session variables from there), and declaring it in `home.file` makes the activation fail with `Error installing file './.zshenv' outside $HOME`.
 
 **PI WEB** ([pi-web.dev](https://pi-web.dev)) is the browser UI and session daemon for `pi`, listening on <http://127.0.0.1:8504>. Two things to know:
 

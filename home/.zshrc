@@ -80,8 +80,8 @@ bindkey '^[OB'  down-line-or-beginning-search
 # No plugin manager here on purpose: starship owns the prompt and shell.nix
 # keeps autosuggestion/syntaxHighlighting off, so there is nothing to load.
 # ~/.config/__misc/*.sh is the hook for anything else you want sourced.
-# nvm/NVM_DIR is loaded from ~/.zshenv instead of here: that file is read by
-# login shells too, so background services see the same node as this terminal.
+# nvm/NVM_DIR is loaded from ~/.zprofile instead of here: login shells read that
+# one too, so background services see the same node as this terminal.
 # ==============================================================================
 
 # Bun Completions

@@ -39,10 +39,11 @@ in
   # before ~/.config/ghostty/, so we symlink there instead.
   home.file."Library/Application Support/com.mitchellh.ghostty".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/ghostty";
-  # Read by every zsh, including the non-interactive login shells that PI WEB's
+  # Read by every login shell, including the non-interactive ones PI WEB's
   # LaunchAgents use. Home for the nvm setup, which is why it is not in .zshrc.
-  home.file.".zshenv".source =
-    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.zshenv";
+  # ~/.zshenv is not an option: nix-darwin writes that one itself.
+  home.file.".zprofile".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.zprofile";
   home.file.".config/helix".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/helix";
   home.file.".config/herdr".source =

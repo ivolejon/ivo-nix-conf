@@ -17,7 +17,6 @@ in
     fzf       # fuzzy finder
     jq        # json on the command line
     lazygit
-    neovim
     helix
     # nodejs is NOT in this list on purpose: node/npm come from nvm (see
     # ~/.zshenv), so `npm i -g` never mutates a read-only store path.

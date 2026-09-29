@@ -106,10 +106,10 @@ homebrew = {
 ```nix
 homebrew = {
   taps = [
-    "hashicorp/tap"  # example tap
+    "owner/tap"  # example tap
   ];
   brews = [
-    "vault"  # from hashicorp/tap
+    "some-formula"  # from owner/tap
   ];
 };
 ```

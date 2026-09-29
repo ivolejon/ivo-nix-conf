@@ -31,6 +31,40 @@ in
     nerd-fonts.hack
   ];
   fonts.fontconfig.enable = true;
+
+  # Docker Desktop's zsh completion. Its own check (Settings -> "Configure shell
+  # completions") runs `zsh -lc` and looks for _docker in fpath, which is why
+  # home/.zprofile puts ~/.docker/completions on fpath - ~/.zshrc is not read
+  # by that check, and ~/.zshenv belongs to nix-darwin.
+  # The completion is `docker completion zsh`, so it has to come from the
+  # Docker Desktop that is actually installed; it cannot be a tracked file.
+  # Regenerated whenever the binary is newer than the completion, which is what
+  # makes it survive Docker Desktop updating itself. Skipped when Docker Desktop
+  # is not installed at all.
+  home.activation.docker-completions = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    completion_dir="$HOME/.docker/completions"
+    # The activation PATH is nix store bins only (coreutils, findutils, ...), so
+    # the ~/.docker/bin that Docker Desktop adds to the GUI session's PATH is not
+    # visible here. Check the places the binary actually lives.
+    for docker_bin in \
+      "$HOME/.docker/bin/docker" \
+      /Applications/Docker.app/Contents/Resources/bin/docker \
+      /opt/homebrew/bin/docker
+    do
+      [ -x "$docker_bin" ] || continue
+      mkdir -p "$completion_dir"
+      if [ ! -f "$completion_dir/_docker" ] || [ "$docker_bin" -nt "$completion_dir/_docker" ]; then
+        echo "Generating Docker zsh completion in $completion_dir"
+        if "$docker_bin" completion zsh > "$completion_dir/_docker.tmp"; then
+          mv "$completion_dir/_docker.tmp" "$completion_dir/_docker"
+        else
+          rm -f "$completion_dir/_docker.tmp"
+        fi
+      fi
+      break
+    done
+  '';
+
   # Edit-in-place: the real file stays in my repo, ~/.config just points at it.
   home.file.".config/zed".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/zed";

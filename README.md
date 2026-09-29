@@ -159,6 +159,23 @@ Do not move that into `~/.zshenv`: nix-darwin writes `~/.zshenv` itself (it sour
   `pi-web doctor` tells you the same thing.
 - Its services are per-user LaunchAgents installed by `pi-web install`, not by Nix. After a `nvm install` of a different Node version, run `pi-web install` again so the services point at the new `node`.
 
+## Docker Desktop
+
+Docker Desktop is **not** in this config, and it can't be: there is no `docker-desktop` in nixpkgs for `aarch64-darwin` (or `x86_64-darwin`) because the app is proprietary and ships as a `.app`, not as a derivation.
+Install it from [docker.com](https://docs.docker.com/desktop/setup/install/mac-install/) or, if you want it managed declaratively, add the `docker-desktop` cask to `brew.nix` - Homebrew has it (4.93.0, `auto_updates`).
+It's deliberately not in `brew.nix` here, because two updaters fighting over the same app is worse than one manual install.
+
+The zsh completion **is** in the config, because Docker Desktop complains without it:
+
+- `home.nix` has a `docker-completions` activation step that writes `~/.docker/completions/_docker` from `docker completion zsh`, regenerated whenever the Docker Desktop binary is newer than the completion (so it self-heals after a Docker update). It does nothing when Docker Desktop is not installed.
+- `home/.zprofile` puts `~/.docker/completions` on `fpath`. That is where it has to be: Docker Desktop's check runs `zsh -lc`, which reads `.zshenv` and `.zprofile` but not `.zshrc`, and `.zshenv` is written by nix-darwin, not by us.
+
+To check what Docker sees, run the same thing it runs:
+
+```sh
+zsh -lc 'print -rl -- $^fpath/_docker(.N)'
+```
+
 ## Make it yours
 
 This repo is mine.

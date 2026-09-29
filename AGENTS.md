@@ -2,9 +2,9 @@
 
 Deliberate decisions in this repo - do NOT silently revert them:
 
-- `homebrew.onActivation.cleanup = "zap"` in `configuration.nix` is intentional. It forces the good habit of declaring every Homebrew package in the Nix config instead of installing things ad-hoc, which keeps the machine reproducible. Do not soften it to `uninstall` or `none`. Users are warned about its effect in README.md; this note is for anyone tempted to change the setting itself.
-- Never commit `.no-mistakes/` validation evidence to this public repo. `.no-mistakes/` is gitignored; if a validation pipeline stages evidence into a branch, drop it before merging.
-- Do not put Node, npm, or npm-published CLIs into this Nix config. A global `npm i -g` under a Nix-managed Node.js mutates a read-only store path, and wrapping npm packages in `buildNpmPackage` drags in an ~800-package tree that must be re-resolved on every nixpkgs bump. Node comes from nvm, loaded in `home/.zprofile` (login shells included, so PI WEB's LaunchAgents see the same `node`); npm packages are installed with plain `npm i -g`. README has the commands.
+- This is the `linux` branch: a standalone home-manager config that mirrors `main` (nix-darwin, macOS). There is no `configuration.nix` and no `brew.nix` here. When `main` changes a shared file (`home/`, `home.nix`, `shell.nix`, `alias.nix`, `AGENTS.md`, `README.md`), port the change instead of letting the branches drift. README.md ends with a list of which parts are Linux-specific.
+- Homebrew is not managed by Nix on this branch: nix-homebrew has no Linux support. `Brewfile` is the source of truth, and `home.nix` runs `brew bundle` plus `brew trust --tap human37/open-wispr` on every activation. `brew bundle` does not uninstall anything, so dropping a package is a manual `brew uninstall`. Do not port main's `homebrew.onActivation.cleanup = "zap"` over from `brew.nix` - there is no such module here. On `main` that setting is intentional and documented in README.md.
+- Do not put Node, npm, or npm-published CLIs into this Nix config. A global `npm i -g` under a Nix-managed Node.js mutates a read-only store path, and wrapping npm packages in `buildNpmPackage` drags in an ~800-package tree that must be re-resolved on every nixpkgs bump. Node comes from nvm, loaded in `home/.zprofile` (login shells included, so services see the same `node`); npm packages are installed with plain `npm i -g`. README has the commands.
 
 ## Maintaining this file
 

@@ -2,9 +2,9 @@
   description = "dotfiles - linux";
 
   inputs = {
-    # Same release branch as main, without the -darwin suffix: the package set
-    # is built for Linux, not for the Mac.
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05";
+    # Same release cycle as main, but the Linux branch: there is no
+    # nixpkgs-26.05-linux, the release branch of 26.05 is nixos-26.05.
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";

@@ -9,10 +9,9 @@
     m = "git switch main";
     co = "codex --full-auto";
     c = "clear";
-    ls = "ls -G -1 -a --color";
+    ls = "ls -1 -a --color=auto";
     r = "reload-zsh-config";
     config = "zed ~/";
-    t = "toggle-theme";
     z = "zed";
     vim = "hx";
     python = "python3";
@@ -42,7 +41,7 @@
     gsp = "git stash pop";
     gsl = "git stash list --pretty=format:'%gd: %Cred%h%Creset %Cgreen[%ar]%Creset %s'";
     gdf = "diff-parent";
-    cb = ''branch=$(git rev-parse --abbrev-ref HEAD); echo "Copied $branch to clipboard"; echo "$branch" | pbcopy'';
+    cb = ''branch=$(git rev-parse --abbrev-ref HEAD); echo "Copied $branch to clipboard"; echo "$branch" | wl-copy'';
     rr = "git_browse";
     reset = "git reset --hard";
     gb = "list-visited-branches";

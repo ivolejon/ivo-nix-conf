@@ -22,21 +22,19 @@ done
 export VISUAL=hx
 export EDITOR=hx
 export KUBE_EDITOR=hx
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-export CLR_OPENSSL_VERSION_OVERRIDE=3
-export DOTNET_ROOT="/usr/local/share/dotnet"
 export BUN_INSTALL="$HOME/.bun"
+# No DOTNET_ROOT here: the dotnet SDKs come from Nix (see home.nix) and their
+# wrappers already point at the store paths. Setting it by hand only shadows them.
 
 # ==============================================================================
 # 3. PATH CONSTRUCTION
 # ==============================================================================
 # Lägger till alla sökvägar systematiskt för att undvika rörig kod
+# No /opt/homebrew entries here: Linux Homebrew lives in /home/linuxbrew and
+# shell.nix puts it on PATH with `brew shellenv`.
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
-export PATH="$PATH:/usr/local/share/dotnet"
-export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
-export PATH="/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
 export PATH="$HOME/.aspire/bin:$PATH"
 export PATH="$HOME/.pi/agent/bin:$PATH"
 export PATH="$HOME/.dotnet/tools:$PATH"

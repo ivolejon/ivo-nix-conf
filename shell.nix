@@ -47,15 +47,11 @@ in
       function git_browse() {
         local gbrowsevar=$(git config --get remote.origin.url)
         printf "%s" "$gbrowsevar"
-        open "$gbrowsevar"
+        xdg-open "$gbrowsevar"
       }
 
       function killport() {
         lsof -i tcp:$1 | awk 'NR>1 {print $2}' | xargs kill -9
-      }
-
-      function toggle-theme() {
-        osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
       }
 
       # Sourcing ~/.zshrc on reload pulls in the home-manager wrapper, which
@@ -72,7 +68,8 @@ in
       }
 
       function list-visited-branches() {
-        git --no-pager reflog | grep "checkout: moving from" | awk '{print $NF}' | awk '!x[$0]++' | head -n 20 | tail -r
+        # tac, not tail -r: tail -r is BSD/macOS only.
+        git --no-pager reflog | grep "checkout: moving from" | awk '{print $NF}' | awk '!x[$0]++' | head -n 20 | tac
       }
 
       function diff-parent() {
@@ -87,6 +84,12 @@ in
         echo "Diffar mot: $target"
         git diff "$target"... --name-only
       }
+
+      # Homebrew on Linux is not on PATH in a nix-built shell. shell.nix owns
+      # it; home.nix installs it and applies the Brewfile.
+      if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+      fi
 
       source "${dotfiles}/home/.zshrc"
     '';

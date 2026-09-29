@@ -2,7 +2,9 @@
 
 let
   dotfiles = "${config.home.homeDirectory}/.dotfiles";
-  brew = "/home/linuxbrew/.linuxbrew/bin/brew";
+  # Homebrew's Linux prefix, and the one binary we call from it.
+  brewPrefix = "/home/linuxbrew/.linuxbrew";
+  brew = "${brewPrefix}/bin/brew";
 in
 
 {
@@ -41,6 +43,38 @@ in
       if [ -x ${brew} ]; then
         $DRY_RUN_CMD ${brew} trust --tap human37/open-wispr
       fi
+    '';
+
+    # Docker's zsh completion, generated from whichever docker is installed:
+    # Docker Desktop for Linux puts its CLI in ~/.docker/bin, Docker Engine
+    # comes from the distro (or docker.com's repo, or snap, or brew). Not a
+    # tracked file, because the completion is `docker completion zsh` and has
+    # to match the installed version; regenerated whenever the binary is newer
+    # than the completion, which covers a self-updated Docker. No-op when there
+    # is no docker at all.
+    # The activation PATH is nix store bins only, so those are looked up by
+    # path rather than with `command -v`.
+    docker-completions = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      completion_dir="$HOME/.docker/completions"
+      for docker_bin in \
+        "$HOME/.docker/bin/docker" \
+        /usr/bin/docker \
+        /usr/local/bin/docker \
+        /snap/bin/docker \
+        ${brewPrefix}/bin/docker
+      do
+        [ -x "$docker_bin" ] || continue
+        mkdir -p "$completion_dir"
+        if [ ! -f "$completion_dir/_docker" ] || [ "$docker_bin" -nt "$completion_dir/_docker" ]; then
+          echo "Generating Docker zsh completion in $completion_dir"
+          if "$docker_bin" completion zsh > "$completion_dir/_docker.tmp"; then
+            mv "$completion_dir/_docker.tmp" "$completion_dir/_docker"
+          else
+            rm -f "$completion_dir/_docker.tmp"
+          fi
+        fi
+        break
+      done
     '';
   };
 

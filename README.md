@@ -159,6 +159,26 @@ Do not move that into `~/.zshenv` either: home-manager's session variables are s
 there, and mixing the two makes the activation order depend on which file a given shell
 happens to read first. Keeping nvm in its own file makes the order explicit.
 
+## Docker
+
+Docker is **not** in this config, and there is no `docker-desktop` in nixpkgs for Linux either - the app is proprietary and ships as a `.deb`, so it cannot come from Nix. Docker Desktop for Linux also cannot be managed by this config, only installed by hand.
+
+The `docker` CLI and its zsh completion, on the other hand, are handled here, because Docker is easy to end up with a half-working shell setup:
+
+- `home/.zprofile` puts `~/.docker/bin` on `PATH` (guarded by `[ -d ... ]`). Docker Desktop does not add its CLI there; that directory only exists in environments that happen to inherit it, so a terminal started by the desktop session has no `docker` at all without this.
+- `home.nix` has a `docker-completions` activation step that writes `~/.docker/completions/_docker` from `docker completion zsh`, regenerated whenever the `docker` binary is newer than the completion. It looks for Docker Desktop's binary, the distro's, docker.com's repo, snap and Homebrew, in that order, and does nothing when there is no docker installed.
+- `home/.zprofile` also puts `~/.docker/completions` on `fpath`, exported so tmux panes and `zsh -c` inherit it.
+
+Both `.zprofile` lines are there rather than in `.zshrc` because a non-interactive login shell (`zsh -lc`, which is what Docker Desktop's own completion check uses) reads `.zshenv` and `.zprofile` but not `.zshrc`.
+
+If you would rather have Docker from Nix: add `docker` and `docker-compose` to `home.packages`. Its `_docker` lands in the profile's `site-functions`, which home-manager already puts on `fpath`, so the completion works with no activation step - but the activation step above still applies to the binaries it finds in the distro and Docker Desktop, and `home.nix` cannot create the systemd unit for `dockerd`. That is NixOS territory, not home-manager.
+
+To check what a shell sees:
+
+```sh
+zsh -lc 'command -v docker; print -rl -- $^fpath/_docker(.N)'
+```
+
 ## Make it yours
 
 This repo is mine.

@@ -1,3 +1,4 @@
+onboarding = false
 [terminal]
 default_shell = "zsh"
 
@@ -14,6 +15,7 @@ focus_pane_left = "prefix+left"
 focus_pane_right = "prefix+right"
 previous_workspace = "prefix+up"
 next_workspace = "prefix+down"
+open_worktree = "prefix+o"
 
 [[keys.command]]
 key = "prefix+g"

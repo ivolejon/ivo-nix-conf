@@ -31,12 +31,11 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
-export PATH="/Users/ivolej01/.docker/bin:$PATH"
-export PATH="$PATH:/Users/ivolej01/.dotnet/tools"
 export PATH="$PATH:/usr/local/share/dotnet"
 export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
 export PATH="/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
 export PATH="$HOME/.aspire/bin:$PATH"
+export PATH="$HOME/.pi/agent/bin:$PATH"
 export PATH="$HOME/.dotnet/tools:$PATH"
 export PATH="$PATH:$HOME/.rvm/bin" # RVM rekommenderar att ligga sist i PATH
 
@@ -58,9 +57,6 @@ setopt hist_find_no_dups
 # ==============================================================================
 # 5. AUTOCOMPLETION
 # ==============================================================================
-# Lägg till completion-mappar INNAN compinit körs
-fpath=(/Users/ivolej01/.docker/completions $fpath)
-
 autoload -Uz compinit && compinit
 zstyle ':completion:*' completer _extensions _complete _approximate
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -79,29 +75,19 @@ bindkey '^[[B'  down-line-or-beginning-search  # Arrow down
 bindkey '^[OB'  down-line-or-beginning-search
 
 # ==============================================================================
-# 7. PLUGINS & TOOLS (Antigen, NVM, Bun, Kube)
+# 7. RUNTIMES (NVM, Bun, Kubernetes)
 # ==============================================================================
-source ~/antigen.zsh
-antigen bundle "MichaelAquilina/zsh-autoswitch-virtualenv"
-antigen bundle djui/alias-tips
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zpm-zsh/autoenv
-antigen bundle joshskidmore/zsh-fzf-history-search
-antigen apply
-
-# Manuella Plugins
-[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# No plugin manager here on purpose: starship owns the prompt and shell.nix
+# keeps autosuggestion/syntaxHighlighting off, so there is nothing to load.
+# ~/.config/__misc/*.sh is the hook for anything else you want sourced.
+# ==============================================================================
 
 # NVM
 [ -s "$HOME/.nvm/nvm.sh" ] && source "$HOME/.nvm/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
 # Bun Completions
-[ -s "/Users/ivolejon/.bun/_bun" ] && source "/Users/ivolejon/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# Kubernetes
-if [ -f ~/.kube-config ]; then
-  source ~/.kube-config
-else
-  echo "Skipping sourcing ~/.kube-config: File not found."
-fi
+# Kubernetes - optional, only loaded if you have created it
+[ -f ~/.kube-config ] && source ~/.kube-config

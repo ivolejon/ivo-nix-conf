@@ -35,8 +35,6 @@ in
   # Edit-in-place: the real file stays in my repo, ~/.config just points at it.
   home.file.".config/zed".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/zed";
-  home.file.".config/nvim".source =
-    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
   # Ghostty on macOS checks ~/Library/Application Support/com.mitchellh.ghostty/
   # before ~/.config/ghostty/, so we symlink there instead.
   home.file."Library/Application Support/com.mitchellh.ghostty".source =

@@ -4,7 +4,7 @@
   nix-homebrew = {
     enable = true;
     inherit user;
-    autoMigrate = false;
+    autoMigrate = true;
   };
 
   homebrew = {
@@ -50,7 +50,6 @@
       "copilot-cli"
       "gcloud-cli"
       "ghostty"
-      "wine-stable"
       "zed"
     ];
   };

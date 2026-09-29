@@ -6,7 +6,10 @@ home/.config/herdr/*.sock
 # local secrets, per machine - home/.secrets.zsh.example is the tracked template
 home/.secrets.zsh
 
-# macOS + nix build noise
+# zsh's compiled .zshrc cache, written by zsh itself when it sources the file
+home/.zshrc.zwc
+
+# nix build noise
 home/.config/zed/prompts/**
 .DS_Store
 result

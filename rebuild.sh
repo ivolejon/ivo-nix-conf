@@ -2,9 +2,10 @@
 set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 ln -sfn "$DIR" ~/.dotfiles
-# sudo resets PATH to a secure default that excludes /nix/.../bin, so
-# darwin-rebuild (which lives under /run/current-system/sw/bin/ or similar)
-# would not be found. Resolve the absolute path first and invoke that instead.
-DARWIN_REBUILD="$(command -v darwin-rebuild)"
-sudo "$DARWIN_REBUILD" switch --flake ~/.dotfiles#mac
+# Run home-manager straight from its flake so this works even when the
+# home-manager binary isn't installed in the profile yet.
+# -b backup avoids clobbering existing dotfiles that home-manager refuses to
+# overwrite (nvm's directory, a hand-made ~/.zprofile, ...).
+# "linux" is the flake host label - if you renamed it, change it in flake.nix too.
+nix run home-manager/release-26.05 -- switch -b backup --flake "$DIR"#linux
 exec zsh

@@ -1,40 +1,46 @@
 # ivo-nix-conf
 
-My personal Mac setup, managed with nix-darwin and home-manager.
-One repo, one command, and a fresh Mac ends up configured the same way every time.
+My personal Linux setup, managed with home-manager.
+One repo, one command, and a fresh Linux machine ends up configured the same way every time.
+
+`main` is the same config for macOS (nix-darwin).
+This branch, `linux`, is the standalone home-manager equivalent - same shell, same editor
+configs, same agent policies, no nix-darwin and no system-level settings.
 
 ## What you get
 
 Running the switch builds:
 
-- System settings (dark mode, key repeat, dock, Finder, trackpad)
-- Homebrew apps: Ghostty terminal, herdr CLI tool, OpenWispr, and more
 - Nix user packages: ripgrep, fd, fzf, jq, lazygit, Helix (default editor), Hack Nerd Font
+- Homebrew packages from `Brewfile`: Ghostty CLI tools, herdr, OpenWispr, and more
 - Node.js via [nvm](https://github.com/nvm-sh/nvm), not from Nix - see below
 - Shell (zsh with custom .zshrc and prompt)
-- Editor configs (Helix, Zed, Neovim)
+- Editor configs (Helix, Zed)
 - Terminal (Ghostty tied to a theme)
 - Agent configs (Codex and opencode share one AGENTS.md)
 
+Homebrew itself is not a Nix package here: `home.nix` installs it if it is missing and then
+runs `brew bundle --file=Brewfile` on every switch.
+
 ## Prerequisites
 
-- Apple Silicon Mac, by default.
-- Intel Mac: change one line.
-  In `configuration.nix`, set `nixpkgs.hostPlatform = "x86_64-darwin";` (the comment right there tells you the same thing).
+- Linux, x86_64 by default.
+  ARM: change `system` in `flake.nix` to `aarch64-linux`.
 - **Nix** must be installed using [Determinate Nix](https://docs.determinate.systems/).
   Do not use the official Nix installer, it will not work with this config.
 
 ## Fresh-machine setup
 
-On a brand new Mac, from a bare clone of this repo:
+On a brand new Linux machine, from a bare clone of this repo:
 
 ```sh
 git clone https://github.com/ivolejon/ivo-nix-conf.git
 cd ivo-nix-conf
+git checkout linux
 ```
 
 Before you run it: review "Make it yours" below.
-Change the host label or CPU architecture if needed, and read the Homebrew cleanup warning.
+Change the username or CPU architecture if needed.
 `bootstrap.sh` applies the config to your machine, so do this first.
 
 ```sh
@@ -44,14 +50,15 @@ Change the host label or CPU architecture if needed, and read the Homebrew clean
 `bootstrap.sh` does four things, in order:
 
 1. **Installs [Determinate Nix](https://docs.determinate.systems/)**, if it isn't already installed.
-   This is the recommended Nix installer for macOS and is required for this config.
+   This is the recommended Nix installer for Linux and is required for this config.
 2. Symlinks this repo to `~/.dotfiles`.
    This has to happen before the first build, because `home.nix` points at config files through `~/.dotfiles`.
-3. Checks the `user` configured in `flake.nix` against your actual macOS username, and offers to fix it for you if they differ.
-4. Runs the first `darwin-rebuild switch`.
-   It fetches the `darwin-rebuild` tool from the nix-darwin 26.05 release branch, then applies this repo's locked flake config.
+3. Checks the `user` configured in `flake.nix` against your actual Linux username, and offers to fix it for you if they differ.
+4. Runs the first `home-manager switch` with `-b backup`.
+   It fetches the `home-manager` tool from the release-26.05 branch, then applies this repo's locked flake config.
+   `backup` keeps the files home-manager finds already there instead of failing on them.
 
-After that, `darwin-rebuild` exists and you're on the normal workflow below.
+After that, `home-manager` exists and you're on the normal workflow below.
 
 ### Validate without applying
 
@@ -59,10 +66,8 @@ Once Nix is installed (`bootstrap.sh` step 1 handles that), you can check that t
 
 ```sh
 nix flake check --no-build
-nix build .#darwinConfigurations.mac.system --dry-run
+nix build .#homeConfigurations.linux.activationPackage --dry-run
 ```
-
-If you renamed the host label in "Make it yours", substitute your label for `mac` in these commands.
 
 ## Daily use
 
@@ -75,46 +80,47 @@ Edit the config files in place, then apply:
 That's it.
 No separate build-and-copy step.
 
-## Adding a Homebrew package
+## Adding a Nix package
 
-Homebrew packages are declared in `brew.nix`. To add a new package:
+Packages are declared in `home.packages` in `home.nix`. To add a new package:
 
-1. **Find the package name**: Run `brew search <name>` to find the exact formula or cask name.
-2. **Add to the right list** in `brew.nix`:
-   - CLI tools go in `homebrew.brews`
-   - GUI apps go in `homebrew.casks`
+1. **Find the package name**: Search on [search.nixos.org](https://search.nixos.org/packages) for the exact attribute name.
+2. **Add to `home.packages`** in `home.nix`.
 3. **Run `./rebuild.sh`** to apply.
 
-**Example** - adding `bat` (a CLI tool) and `zed` (an editor app):
+**Example** - adding `bat`:
 
 ```nix
-homebrew = {
-  # ... existing config ...
-  brews = [
-    # ... existing brews ...
-    "bat"  # <-- added here
-  ];
-  casks = [
-    # ... existing casks ...
-    "zed"  # <-- added here
-  ];
-};
+home.packages = with pkgs; [
+  # ... existing packages ...
+  bat  # <-- added here
+];
 ```
 
-**If it's from a custom tap**, add the tap first in `homebrew.taps`:
+## Adding a Homebrew package
 
-```nix
-homebrew = {
-  taps = [
-    "owner/tap"  # example tap
-  ];
-  brews = [
-    "some-formula"  # from owner/tap
-  ];
-};
+Homebrew packages are declared in `Brewfile` on this branch (`brew.nix` is macOS-only, on `main`).
+To add a new package:
+
+1. **Find the package name**: Run `brew search <name>` to find the exact formula name.
+   Casks are macOS-only and have no entry here.
+2. **Add `brew "<name>"`** to `Brewfile`.
+3. **Run `./rebuild.sh`** to apply - the bundle install is part of every switch.
+
+**If it's from a custom tap**, add the tap first and trust it, because Homebrew 4.x refuses to
+load formulae from an untrusted tap:
+
+```
+tap "owner/tap"
+brew "some-formula"
 ```
 
-**Important**: `cleanup = "zap"` is enabled, so anything not in these lists gets uninstalled on rebuild.
+Then add the same tap to the `brew-trust` activation step in `home.nix`, otherwise the bundle
+install fails on the formula.
+
+**Important**: unlike `main`, `brew bundle` here does **not** clean up.
+It installs and upgrades what is listed, and leaves everything else alone.
+To remove a package, delete its line from `Brewfile`, run `brew uninstall <name>`, and re-run `./rebuild.sh`.
 
 ## Node, npm and npm packages (deliberately not in Nix)
 
@@ -137,8 +143,6 @@ nvm alias default 24          # what new shells and services get
 nvm ls                        # what is installed
 ```
 
-Because the default version is what login shells get, a `nvm install` of a new default is also a PI WEB upgrade target: run `pi-web install` again afterwards so its services point at the new `node`.
-
 The reason is reproducibility versus mutability: `npm i -g` under a Nix-managed Node.js writes straight into a read-only store path (it needs `sudo`, and `nix store verify` flags the result), and wrapping npm packages in `buildNpmPackage` turns a two-line install into a 800-package dependency tree that has to be re-resolved on every nixpkgs update. npm packages therefore stay npm packages:
 
 ```sh
@@ -146,29 +150,25 @@ npm install -g @jmfederico/pi-web --allow-scripts=node-pty
 pi-web install
 ```
 
-`~/.zprofile` (not `~/.zshrc`) is where nvm is loaded, because PI WEB's LaunchAgents run through a non-interactive login shell - `zsh -lc` - and would otherwise get a different `node` than your terminal. `~/.zprofile` is symlinked from `home/.zprofile` by `home.nix`.
+`~/.zprofile` (not `~/.zshrc`) is where nvm is loaded, because non-interactive login shells
+(`zsh -lc`, which is what a systemd user unit or a `command -l` script gets) would otherwise
+end up with a different `node` than your terminal. `~/.zprofile` is symlinked from
+`home/.zprofile` by `home.nix`.
 
-Do not move that into `~/.zshenv`: nix-darwin writes `~/.zshenv` itself (it sources the Home Manager session variables from there), and declaring it in `home.file` makes the activation fail with `Error installing file './.zshenv' outside $HOME`.
-
-**PI WEB** ([pi-web.dev](https://pi-web.dev)) is the browser UI and session daemon for `pi`, listening on <http://127.0.0.1:8504>. Two things to know:
-
-- After installing, run the upstream fix for node-pty's macOS spawn-helper (it ships without the executable bit):
-  ```sh
-  chmod +x "$(npm prefix -g)"/lib/node_modules/@jmfederico/pi-web/node_modules/node-pty/prebuilds/*/spawn-helper
-  ```
-  `pi-web doctor` tells you the same thing.
-- Its services are per-user LaunchAgents installed by `pi-web install`, not by Nix. After a `nvm install` of a different Node version, run `pi-web install` again so the services point at the new `node`.
+Do not move that into `~/.zshenv` either: home-manager's session variables are sourced from
+there, and mixing the two makes the activation order depend on which file a given shell
+happens to read first. Keeping nvm in its own file makes the order explicit.
 
 ## Make it yours
 
 This repo is mine.
 If you clone it, review these before you run `bootstrap.sh`:
 
-- **Username**: run `./bootstrap.sh` (it detects your macOS username and offers to set it) OR change the single `user = "ivo"` line in `flake.nix`.
-  Everything else (`configuration.nix`, `home.nix`, home directory paths) is threaded from that one variable.
-- **Host label** `"mac"`, in three places: `flake.nix` (the `darwinConfigurations."mac"` name), `rebuild.sh:5` (the `#mac` at the end of the flake reference), and `bootstrap.sh`'s first-switch command (also `#mac`).
-  All three have to match.
-- **CPU architecture**, `hostPlatform` in `configuration.nix` (see Prerequisites above).
+- **Username**: run `./bootstrap.sh` (it detects your Linux username and offers to set it) OR change the single `user = "ivo"` line in `flake.nix`.
+  Everything else (`home.nix`, home directory paths) is threaded from that one variable.
+- **CPU architecture**, `system` in `flake.nix` (see Prerequisites above).
+- **Host label** `"linux"`, in two places: `flake.nix` (the `homeConfigurations."linux"` name) and `rebuild.sh` / `bootstrap.sh` (the `#linux` at the end of the flake reference).
+  All of them have to match.
 
 **Secrets:** none of this repo is secret, so per-machine values live in `home/.secrets.zsh`, which is gitignored.
 Copy the template on a new machine - `home/.zshrc` sources it for you:
@@ -191,14 +191,9 @@ programs.git = {
 };
 ```
 
-**Homebrew cleanup warning:** `brew.nix` sets `homebrew.onActivation.cleanup = "zap"`.
-That means every time you switch, Homebrew removes any package or cask on your machine that isn't listed in the `brews` and `casks` arrays in `brew.nix`.
-If you already have Homebrew stuff installed that isn't in that list, the first switch will uninstall it.
-Read through `brews` and `casks` before you run `bootstrap.sh` or `rebuild.sh` for the first time, and add anything you want to keep.
-
-**About `herdr`:** it's in the `brews` list.
+**About `herdr`:** it's in the `Brewfile`.
 It's a real public Homebrew formula (`brew info herdr` finds it in homebrew-core, no tap needed), so it will install fine.
-If you don't use it, just remove it from `brews` in your copy.
+If you don't use it, just remove it from `Brewfile` in your copy.
 
 **Heads-up:**
 
@@ -210,19 +205,29 @@ If you don't use it, just remove it from `brews` in your copy.
 ## Repo tour
 
 - `flake.nix` - the entry point.
-  Wires up nixpkgs, nix-darwin, home-manager, and nix-homebrew, and declares the `mac` machine.
-- `configuration.nix` - system-level config: macOS defaults, Nix settings.
-- `brew.nix` - Homebrew config: taps, brews, casks, cleanup policy.
-- `home.nix` - user-level config: packages, fonts, and symlinks for editor/terminal configs.
+  Wires up nixpkgs and home-manager, and declares the `linux` user configuration.
+- `Brewfile` - the Homebrew package list, applied by `home.nix` on every switch.
+- `home.nix` - user-level config: packages, fonts, Homebrew activation, and symlinks for editor/terminal configs.
 - `shell.nix` - zsh, Starship prompt, editor env var, shell functions (imports `alias.nix`).
 - `alias.nix` - all shell aliases, kept separate for readability.
+- `bootstrap.sh` - one-time setup from a bare clone.
 - `rebuild.sh` - re-applies the config after the first switch.
   Run this every time you make a change.
-- `home/` - the actual config files that get symlinked into place (Ghostty, Helix, Zed, Neovim, herdr, the shared `AGENTS.md`).
+- `home/` - the actual config files that get symlinked into place (Ghostty, Helix, Zed, herdr, the shared `AGENTS.md`).
+
+Files that only exist on `main`: `configuration.nix` (macOS system settings) and `brew.nix`
+(the nix-darwin Homebrew module, replaced by `Brewfile` here).
 
 ## How the symlinks work
 
 The files under `home/` are the real files - editing them here is editing your live config, no rebuild needed to see the change in your editor.
 `home.nix` uses `mkOutOfStoreSymlink` to point paths like `~/.config/helix` straight at `home/.config/helix` in this repo, so the two never drift out of sync.
-You only run `./rebuild.sh` when you change something that isn't just a symlinked file, like a package list or a system default.
+You only run `./rebuild.sh` when you change something that isn't just a symlinked file, like a package list.
 
+## Staying in sync with `main`
+
+`main` and `linux` share `home/`, `shell.nix`, `alias.nix`, `home.nix`, `AGENTS.md` and most of `README.md`.
+When `main` changes one of those, port the change here - or rebase this branch onto `main` and re-apply the Linux-specific bits.
+The Linux-specific parts are: `flake.nix` (no nix-darwin, `system` instead of a host config), `Brewfile`
+(Homebrew without the Nix module), `bootstrap.sh` / `rebuild.sh` (home-manager instead of darwin-rebuild),
+and the platform calls in `shell.nix` / `alias.nix` / `home/.zshrc` (`xdg-open`, `tac`, GNU `ls`, `wl-copy`).

@@ -5,6 +5,12 @@
     enable = true;
     inherit user;
     autoMigrate = true;
+    # Homebrew 4.x refuses to load formulae from untrusted third-party taps.
+    # Trusting the whole tap (rather than one formula) is the upstream
+    # recommendation only if you accept everything it ships, present and future.
+    # Entries are added on every activation and never removed - use
+    # `brew untrust` for that.
+    trust.taps = [ "human37/open-wispr" ];
   };
 
   homebrew = {

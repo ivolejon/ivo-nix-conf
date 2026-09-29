@@ -19,7 +19,7 @@ in
     lazygit
     helix
     # nodejs is NOT in this list on purpose: node/npm come from nvm (see
-    # ~/.zshenv), so `npm i -g` never mutates a read-only store path.
+    # ~/.zprofile), so `npm i -g` never mutates a read-only store path.
     # dotnet (both SDKs combined into one package)
     (dotnetCorePackages.combinePackages [
       dotnetCorePackages.sdk_9_0

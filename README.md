@@ -123,10 +123,23 @@ Node.js is **not** in `home.packages` here. It comes from nvm, installed per mac
 ```sh
 # once, on a new machine
 curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
-nvm install --lts
+nvm install 24
+node -v   # v24.21.0
+npm -v    # 11.19.0
 ```
 
-The reason is reproducibility versus mutability: `npm i -g` under the Nix-managed Node.js writes straight into a read-only store path (it needs `sudo`, and `nix store verify` flags the result), and wrapping npm packages in `buildNpmPackage` turns a two-line install into a 800-package dependency tree that has to be re-resolved on every nixpkgs update. npm packages therefore stay npm packages:
+nvm owns the Node versions from there - nothing about Node is in this config, so switching versions is just nvm:
+
+```sh
+nvm install 22                # install another version
+nvm use 22                    # use it in this shell
+nvm alias default 24          # what new shells and services get
+nvm ls                        # what is installed
+```
+
+Because the default version is what login shells get, a `nvm install` of a new default is also a PI WEB upgrade target: run `pi-web install` again afterwards so its services point at the new `node`.
+
+The reason is reproducibility versus mutability: `npm i -g` under a Nix-managed Node.js writes straight into a read-only store path (it needs `sudo`, and `nix store verify` flags the result), and wrapping npm packages in `buildNpmPackage` turns a two-line install into a 800-package dependency tree that has to be re-resolved on every nixpkgs update. npm packages therefore stay npm packages:
 
 ```sh
 npm install -g @jmfederico/pi-web --allow-scripts=node-pty

@@ -157,6 +157,13 @@ If you clone it, review these before you run `bootstrap.sh`:
   All three have to match.
 - **CPU architecture**, `hostPlatform` in `configuration.nix` (see Prerequisites above).
 
+**Secrets:** none of this repo is secret, so per-machine values live in `home/.secrets.zsh`, which is gitignored.
+Copy the template on a new machine - `home/.zshrc` sources it for you:
+
+```sh
+cp home/.secrets.zsh.example home/.secrets.zsh
+```
+
 **Git identity:** this config deliberately does not set your git name or email.
 Git will stop your first commit and tell you to set them (`git config --global user.name "Your Name"` and `git config --global user.email you@example.com`).
 If you'd rather manage that declaratively, add this back to `home.nix` with your own identity:

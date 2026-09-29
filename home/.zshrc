@@ -4,6 +4,10 @@
 # NOTE: Functions and aliases are defined in home.nix initContent and shellAliases
 # so they are always available. Only environment variables and sourcing stay here.
 
+# Secrets live in home/.secrets.zsh, which is gitignored - copy
+# home/.secrets.zsh.example on a new machine. Never put them in this file.
+[[ -f "$HOME/.dotfiles/home/.secrets.zsh" ]] && source "$HOME/.dotfiles/home/.secrets.zsh"
+
 # Source all .sh files from ~/.config/__misc
 for misc_sh in ~/.config/__misc/*.sh(N); do
   source "$misc_sh"

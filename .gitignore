@@ -3,6 +3,9 @@ home/.config/herdr/*.log
 home/.config/herdr/session.json
 home/.config/herdr/*.sock
 
+# local secrets, per machine - home/.secrets.zsh.example is the tracked template
+home/.secrets.zsh
+
 # macOS + nix build noise
 home/.config/zed/prompts/**
 .DS_Store

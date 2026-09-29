@@ -13,8 +13,6 @@
     onActivation.autoUpdate = true;
     onActivation.extraFlags = [ "--force" ];
     taps = [
-      "derailed/k9s"
-      "hashicorp/tap"
       "human37/open-wispr"
       "modem-dev/tap"
     ];
@@ -29,19 +27,14 @@
       "helix"
       "herdr"
       "jq"
-      "k9s"
-      "kubecolor"
-      "kubectx"
       "lazygit"
       "libaacs"
       "libpq"
       "libtool"
-      "neovim"
       "opencode"
       "ossp-uuid"
       "python-setuptools"
       "uv"
-      "vault"
       "zls"
       "hunk"
       "open-wispr"

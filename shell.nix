@@ -58,9 +58,16 @@ in
         osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
       }
 
+      # Sourcing ~/.zshrc on reload pulls in the home-manager wrapper, which
+      # runs compinit before the PATH below is built. If a previous command left
+      # PATH without the system directories, compdump/mkdir/dirname are not found
+      # and the reload dies half way through. Guard the base directories first,
+      # then source the file that is actually ours - the repo's own .zshrc - so
+      # user edits do not depend on a home-manager activation to show up.
       function reload-zsh-config() {
         echo "Reloading zsh configuration..."
-        source ~/.zshrc
+        path=(/usr/bin /bin /usr/sbin /sbin $path)
+        source "${dotfiles}/home/.zshrc"
         echo "Zsh configuration reloaded."
       }
 

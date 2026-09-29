@@ -75,16 +75,14 @@ bindkey '^[[B'  down-line-or-beginning-search  # Arrow down
 bindkey '^[OB'  down-line-or-beginning-search
 
 # ==============================================================================
-# 7. RUNTIMES (NVM, Bun, Kubernetes)
+# 7. RUNTIMES (Bun, Kubernetes)
 # ==============================================================================
 # No plugin manager here on purpose: starship owns the prompt and shell.nix
 # keeps autosuggestion/syntaxHighlighting off, so there is nothing to load.
 # ~/.config/__misc/*.sh is the hook for anything else you want sourced.
+# nvm/NVM_DIR is loaded from ~/.zshenv instead of here: that file is read by
+# login shells too, so background services see the same node as this terminal.
 # ==============================================================================
-
-# NVM
-[ -s "$HOME/.nvm/nvm.sh" ] && source "$HOME/.nvm/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
 # Bun Completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"

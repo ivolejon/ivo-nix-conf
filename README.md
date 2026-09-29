@@ -9,7 +9,8 @@ Running the switch builds:
 
 - System settings (dark mode, key repeat, dock, Finder, trackpad)
 - Homebrew apps: Ghostty terminal, herdr CLI tool, OpenWispr, and more
-- Nix user packages: ripgrep, fd, fzf, jq, lazygit, Helix (default editor), Node.js, Hack Nerd Font
+- Nix user packages: ripgrep, fd, fzf, jq, lazygit, Helix (default editor), Hack Nerd Font
+- Node.js via [nvm](https://github.com/nvm-sh/nvm), not from Nix - see below
 - Shell (zsh with custom .zshrc and prompt)
 - Editor configs (Helix, Zed, Neovim)
 - Terminal (Ghostty tied to a theme)
@@ -114,6 +115,34 @@ homebrew = {
 ```
 
 **Important**: `cleanup = "zap"` is enabled, so anything not in these lists gets uninstalled on rebuild.
+
+## Node, npm and npm packages (deliberately not in Nix)
+
+Node.js is **not** in `home.packages` here. It comes from nvm, installed per machine, and loaded in `home/.zshenv`:
+
+```sh
+# once, on a new machine
+curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
+nvm install --lts
+```
+
+The reason is reproducibility versus mutability: `npm i -g` under the Nix-managed Node.js writes straight into a read-only store path (it needs `sudo`, and `nix store verify` flags the result), and wrapping npm packages in `buildNpmPackage` turns a two-line install into a 800-package dependency tree that has to be re-resolved on every nixpkgs update. npm packages therefore stay npm packages:
+
+```sh
+npm install -g @jmfederico/pi-web --allow-scripts=node-pty
+pi-web install
+```
+
+`~/.zshenv` (not `~/.zshrc`) is where nvm is loaded, because PI WEB's LaunchAgents run through a non-interactive login shell - `zsh -lc` - and would otherwise get a different `node` than your terminal. It is symlinked from `home/.zshenv` by `home.nix`.
+
+**PI WEB** ([pi-web.dev](https://pi-web.dev)) is the browser UI and session daemon for `pi`, listening on <http://127.0.0.1:8504>. Two things to know:
+
+- After installing, run the upstream fix for node-pty's macOS spawn-helper (it ships without the executable bit):
+  ```sh
+  chmod +x "$(npm prefix -g)"/lib/node_modules/@jmfederico/pi-web/node_modules/node-pty/prebuilds/*/spawn-helper
+  ```
+  `pi-web doctor` tells you the same thing.
+- Its services are per-user LaunchAgents installed by `pi-web install`, not by Nix. After a `nvm install` of a different Node version, run `pi-web install` again so the services point at the new `node`.
 
 ## Make it yours
 

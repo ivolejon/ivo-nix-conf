@@ -19,8 +19,8 @@ in
     lazygit
     neovim
     helix
-    # nodejs and npm
-    nodejs
+    # nodejs is NOT in this list on purpose: node/npm come from nvm (see
+    # ~/.zshenv), so `npm i -g` never mutates a read-only store path.
     # dotnet (both SDKs combined into one package)
     (dotnetCorePackages.combinePackages [
       dotnetCorePackages.sdk_9_0
@@ -39,6 +39,10 @@ in
   # before ~/.config/ghostty/, so we symlink there instead.
   home.file."Library/Application Support/com.mitchellh.ghostty".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/ghostty";
+  # Read by every zsh, including the non-interactive login shells that PI WEB's
+  # LaunchAgents use. Home for the nvm setup, which is why it is not in .zshrc.
+  home.file.".zshenv".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.zshenv";
   home.file.".config/helix".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/helix";
   home.file.".config/herdr".source =
